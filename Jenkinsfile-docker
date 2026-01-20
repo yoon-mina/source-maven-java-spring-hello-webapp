@@ -31,13 +31,11 @@ pipeline {
    }
   }
   stage('ImagePush') {
-   agent {
-    docker { image 'docker:dind' }
-   }
+   agent any
    steps {
     withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1') {
-     sh 'docker image push yoon-mina/tomcat:$BUILD_NUMBER'
-     sh 'docker image push yoon-mina/tomcat:latest'
+     sh 'docker -H tcp://192.168.56.103:2375 image push yoon-mina/tomcat:$BUILD_NUMBER'
+     sh 'docker -H tcp://192.168.56.103:2375 image push yoon-mina/tomcat:latest'
     }
    }
   }
