@@ -34,6 +34,7 @@ pipeline {
    agent any
    steps {
     withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1') {
+     sh 'docker info | head -n 30'
      sh 'docker image push skwhjj/tomcat:$BUILD_NUMBER'
      sh 'docker image push skwhjj/tomcat:latest'
     }
