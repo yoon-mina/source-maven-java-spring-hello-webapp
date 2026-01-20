@@ -3,7 +3,6 @@ pipeline {
 
  stages {
   stage('CheckOut') {
-   agent any
    steps {
     git branch: 'main',
     url: 'https://github.com/yoon-mina/source-maven-java-spring-hello-webapp.git'
@@ -18,20 +17,17 @@ pipeline {
    } 
   }
   stage('ImageBuild') {
-   agent any
    steps {
     sh 'docker image build -t tomcat:hello .'
    }
   }
   stage('ImageTag') {
-   agent any
    steps {
     sh 'docker image tag tomcat:hello skwhjj/tomcat:$BUILD_NUMBER'
     sh 'docker image tag tomcat:hello skwhjj/tomcat:latest'
    }
   }
   stage('ImagePush') {
-   agent any
    steps {
     withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1') {
      sh 'docker info | head -n 30'
