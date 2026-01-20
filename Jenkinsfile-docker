@@ -1,5 +1,5 @@
 pipeline {
- agnet none
+ agent none
 
  stages {
   stage('CheckOut') {
@@ -26,7 +26,7 @@ pipeline {
   stage('ImageTag') {
    agent any
    steps {
-    sh 'docker image tag tomcat:hello yoon-mina/tomcat:$BUILDNUMBER'
+    sh 'docker image tag tomcat:hello yoon-mina/tomcat:$BUILD_NUMBER'
     sh 'docker image tag tomcat:hello yoon-mina/tomcat:latest'
    }
   }
@@ -34,7 +34,7 @@ pipeline {
    agent any
    steps {
     withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1') {
-     sh 'docker image push tomcat:hello yoon-mina/tomcat:$BUILDNUMBER'
+     sh 'docker image push tomcat:hello yoon-mina/tomcat:$BUILD_NUMBER'
      sh 'docker image push tomcat:hello yoon-mina/tomcat:latest'
     }
    }
