@@ -18,20 +18,26 @@ pipeline {
    } 
   }
   stage('ImageBuild') {
-   agent any
+   agent {
+    docker { image 'maven:3-openjdk-17' }
+   }   
    steps {
     sh 'docker image build -t tomcat:hello .'
    }
   }
   stage('ImageTag') {
-   agent any
+   agent {
+    docker { image 'maven:3-openjdk-17' }
+   }
    steps {
     sh 'docker image tag tomcat:hello yoon-mina/tomcat:$BUILD_NUMBER'
     sh 'docker image tag tomcat:hello yoon-mina/tomcat:latest'
    }
   }
   stage('ImagePush') {
-   agent any
+   agent {
+    docker { image 'maven:3-openjdk-17' }
+   }
    steps {
     withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1') {
      sh 'docker image push yoon-mina/tomcat:$BUILD_NUMBER'
